@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Endevina la nota</title>
+<style>
+:root{--bg:#fdf8ee;--card:#fff;--tx:#2a2438;--mut:#6b6580;--ac:#7c4dff;--ac2:#efe9ff;--ok:#2e9d5b;--ko:#d94a4a;--bd:#ddd5ee;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#17141f;--card:#221e2e;--tx:#f0ecfa;--mut:#a39cba;--ac:#a98bff;--ac2:#352c52;--ok:#5fd18d;--ko:#ff7b7b;--bd:#3a3452}}
+:root[data-theme="dark"]{--bg:#17141f;--card:#221e2e;--tx:#f0ecfa;--mut:#a39cba;--ac:#a98bff;--ac2:#352c52;--ok:#5fd18d;--ko:#ff7b7b;--bd:#3a3452}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;display:flex;justify-content:center}
+main{width:100%;max-width:560px;padding:20px 16px 40px}
+h1{font-size:1.5rem;margin:0 0 4px;text-align:center}
+.sub{color:var(--mut);text-align:center;margin:0 0 16px;font-size:.9rem}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:16px;margin-bottom:14px}
+h2{font-size:1rem;margin:0 0 10px}
+.row{display:flex;flex-wrap:wrap;gap:8px}
+button{font:inherit;cursor:pointer;border-radius:12px;border:2px solid var(--bd);background:var(--card);color:var(--tx);padding:10px 14px}
+.opt.sel{border-color:var(--ac);background:var(--ac2);font-weight:600}
+.opt.good{border-color:var(--ok);background:var(--ok);color:#fff}
+.opt.bad{border-color:var(--ko);background:var(--ko);color:#fff}
+.main{background:var(--ac);border-color:var(--ac);color:#fff;font-weight:600}
+.main:disabled,.opt:disabled{opacity:.45;cursor:default}
+.top{display:flex;gap:8px;margin-bottom:14px}
+.top button{flex:1}
+#stage{text-align:center;min-height:210px}
+#face{width:170px;height:170px;display:none;margin:0 auto}
+#face.show{display:block}
+#face.yes{animation:nod .9s ease-in-out 2}
+#face.no{animation:shake .7s ease-in-out 2}
+@keyframes nod{0%,100%{transform:translateY(0) rotate(0)}25%{transform:translateY(14px) rotate(3deg)}50%{transform:translateY(0)}75%{transform:translateY(14px) rotate(-3deg)}}
+@keyframes shake{0%,100%{transform:rotate(0)}25%{transform:rotate(-14deg)}75%{transform:rotate(14deg)}}
+#msg{font-size:1.1rem;font-weight:700;margin-top:6px}
+#hint{color:var(--mut);padding-top:70px}
+.score{text-align:center;color:var(--mut);font-size:.9rem}
+.credit{text-align:center;font-weight:700;color:var(--ac);margin:18px 0 0;font-size:1rem}
+</style>
+</head>
+<body>
+<main>
+<h1>🎵 Endevina la nota</h1>
+<p class="sub">La = 442 Hz · negra = 60</p>
+<p class="credit" style="margin:-8px 0 16px">@LorenMoya</p>
+
+<div class="top">
+<button class="main" id="newBtn">▶ Nota nova</button>
+<button id="repBtn" disabled>🔁 Repeteix</button>
+</div>
+<p class="score" id="dbg" style="margin:-6px 0 10px"></p>
+
+<div class="card">
+<h2>Quina nota és?</h2>
+<div class="row" id="notes"></div>
+</div>
+<div class="card">
+<h2>Quin ritme?</h2>
+<div class="row" id="rhy"></div>
+</div>
+
+<button class="main" id="chk" style="width:100%" disabled>Comprova</button>
+
+<div class="card" id="stage" style="margin-top:14px">
+<div id="hint">Prem «Nota nova» per començar</div>
+<svg id="face" viewBox="0 0 200 200" aria-label="Cara">
+<path d="M100 12C52 12 34 56 36 104C37 132 42 148 54 152C65 154 69 140 69 126L131 126C131 140 135 154 146 152C158 148 163 132 164 104C166 56 148 12 100 12Z" fill="#e8cf7e"/>
+<path d="M50 200C56 174 80 166 100 166C120 166 144 174 150 200Z" fill="#9b7bff"/>
+<rect x="89" y="146" width="22" height="24" rx="9" fill="#f3cfb2"/>
+<path d="M54 96C54 66 74 50 100 50C126 50 146 66 146 96C146 128 126 152 100 152C74 152 54 128 54 96Z" fill="#fbdcc2"/>
+<path d="M50 100C44 54 76 28 104 30C134 32 154 58 150 100C146 82 138 68 124 62C112 74 84 78 64 86C57 90 52 94 50 100Z" fill="#e8cf7e"/>
+<g stroke="#fff2bf" stroke-width="5" fill="none" stroke-linecap="round" opacity=".9"><path d="M82 38C72 48 66 62 60 78"/><path d="M104 34C100 46 96 56 88 66"/><path d="M128 40C136 50 140 62 142 76"/><path d="M44 100C43 120 46 138 50 146"/><path d="M156 100C157 120 154 138 150 146"/></g>
+<path d="M70 84Q80 78 92 83M108 83Q120 78 130 84" stroke="#c4a54f" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+<g id="eyes"><ellipse cx="80" cy="102" rx="5" ry="6.5" fill="#2a2438"/><ellipse cx="120" cy="102" rx="5" ry="6.5" fill="#2a2438"/><circle cx="82" cy="99.5" r="1.8" fill="#fff"/><circle cx="122" cy="99.5" r="1.8" fill="#fff"/></g>
+<g id="happyEyes" style="display:none"><path d="M72 106Q80 95 88 106M112 106Q120 95 128 106" stroke="#2a2438" stroke-width="4" fill="none" stroke-linecap="round"/></g>
+<g fill="rgba(255,255,255,.12)" stroke="#151515" stroke-width="5"><rect x="62" y="88" width="36" height="28" rx="12"/><rect x="102" y="88" width="36" height="28" rx="12"/></g>
+<path d="M98 99Q100 96 102 99M62 98L55 96M138 98L145 96" stroke="#151515" stroke-width="4" fill="none" stroke-linecap="round"/>
+<path d="M99 114Q100 118 104 117" stroke="#e2b08f" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+<circle cx="70" cy="126" r="8" fill="#f7a6a6" opacity=".45"/><circle cx="130" cy="126" r="8" fill="#f7a6a6" opacity=".45"/>
+<g id="mouthYes" style="display:none"><path d="M86 129Q100 150 114 129Z" fill="#b8344f"/><path d="M92 138Q100 144 108 138Q100 135 92 138Z" fill="#f08a9b"/></g>
+<path id="mouthNo" d="M89 139Q100 131 111 139" stroke="#b8344f" stroke-width="4" fill="none" stroke-linecap="round" style="display:none"/>
+</svg>
+<div id="msg"></div>
+</div>
+<p class="score" id="score">Encerts: 0 / 0</p>
+<p class="credit">@LorenMoya</p>
+</main>
+
+<script>
+window.onerror = function (m) { var d = document.getElementById("dbg"); if (d) d.textContent = "Error: " + m; };
+const A4 = 442;
+const NOTES = [["Do",0],["Re",2],["Mi",4],["Fa",5],["Sol",7],["La",9],["Si",11],["Do agut",12]];
+const RHY = [
+  {n:"Negra", d:[1]},
+  {n:"Dues corxeres", d:[0.5,0.5]},
+  {n:"Blanca", d:[2]},
+  {n:"Blanca amb punt", d:[3]}
+];
+const freq = s => A4 * Math.pow(2, (s - 9) / 12); // s = semitons des del Do central
+let ctx = null, cur = null, selN = null, selR = null, done = true, ok = 0, tot = 0;
+const $ = id => document.getElementById(id);
+
+function mk(box, arr, kind) {
+  arr.forEach((x, i) => {
+    const b = document.createElement("button");
+    b.className = "opt"; b.textContent = kind === "n" ? x[0] : x.n; b.disabled = true;
+    b.onclick = () => {
+      if (done) return;
+      if (kind === "n") selN = i; else selR = i;
+      [...box.children].forEach((c, j) => c.classList.toggle("sel", j === (kind === "n" ? selN : selR)));
+      $("chk").disabled = selN === null || selR === null;
+    };
+    box.appendChild(b);
+  });
+}
+mk($("notes"), NOTES, "n"); mk($("rhy"), RHY, "r");
+
+function play() {
+  if (!cur) return;
+  if (typeof window.playSound === "function") window.playSound(cur.n, cur.r);
+  else $("dbg").textContent = "Error: falta el mòdul de so";
+}
+
+function reset() {
+  selN = selR = null; done = false;
+  $("face").setAttribute("class", ""); $("msg").textContent = "";
+  document.querySelectorAll(".opt").forEach(b => { b.className = "opt"; b.disabled = false; });
+  $("chk").disabled = true; $("repBtn").disabled = false;
+}
+
+$("newBtn").onclick = () => {
+  cur = {n: Math.floor(Math.random() * NOTES.length), r: Math.floor(Math.random() * RHY.length)};
+  $("hint").style.display = "none"; $("face").classList.remove("show");
+  reset(); play();
+};
+$("repBtn").onclick = play;
+
+$("chk").onclick = () => {
+  if (done) return;
+  done = true; tot++;
+  const good = selN === cur.n && selR === cur.r;
+  if (good) ok++;
+  const nb = $("notes").children, rb = $("rhy").children;
+  [...nb, ...rb].forEach(b => b.disabled = true);
+  nb[cur.n].classList.add("good"); rb[cur.r].classList.add("good");
+  if (selN !== cur.n) nb[selN].classList.add("bad");
+  if (selR !== cur.r) rb[selR].classList.add("bad");
+  const f = $("face");
+  f.setAttribute("class", "show"); void f.offsetWidth;
+  f.classList.add(good ? "yes" : "no");
+  $("happyEyes").style.display = good ? "block" : "none";
+  $("eyes").style.display = good ? "none" : "block";
+  $("mouthYes").style.display = good ? "block" : "none";
+  $("mouthNo").style.display = good ? "none" : "block";
+  $("msg").style.color = good ? "var(--ok)" : "var(--ko)";
+  $("msg").textContent = good ? "Sí! Molt bé!" : "No… era " + NOTES[cur.n][0] + ", " + RHY[cur.r].n.toLowerCase();
+  $("score").textContent = "Encerts: " + ok + " / " + tot;
+  $("chk").disabled = true;
+};
+</script>
+<script>
+(function () {
+var ST = [0, 2, 4, 5, 7, 9, 11, 12], DUR = [[1], [0.5, 0.5], [2], [3]], el = null, url = null;
+function show(m) { var d = document.getElementById("dbg"); if (d) d.textContent = m; }
+function wavBytes(n, ri) {
+  var SR = 22050, f = 442 * Math.pow(2, (ST[n] - 9) / 12), segs = DUR[ri], total = 0, k, j, i, off = 0;
+  for (k = 0; k < segs.length; k++) total += segs[k];
+  var len = Math.floor(SR * total), b = new ArrayBuffer(44 + len * 2), v = new DataView(b);
+  function w(o, t) { for (var q = 0; q < t.length; q++) v.setUint8(o + q, t.charCodeAt(q)); }
+  w(0, "RIFF"); v.setUint32(4, 36 + len * 2, true); w(8, "WAVEfmt "); v.setUint32(16, 16, true);
+  v.setUint16(20, 1, true); v.setUint16(22, 1, true); v.setUint32(24, SR, true); v.setUint32(28, SR * 2, true);
+  v.setUint16(32, 2, true); v.setUint16(34, 16, true); w(36, "data"); v.setUint32(40, len * 2, true);
+  for (j = 0; j < segs.length; j++) {
+    var d = segs[j], L = Math.floor(SR * d);
+    for (i = 0; i < L; i++) {
+      var t = i / SR, ph = (t * f) % 1, tri = 4 * Math.abs(ph - 0.5) - 1, sn = Math.sin(2 * Math.PI * f * t);
+      var env = Math.min(1, t / 0.03) * Math.min(1, (d - t) / 0.06);
+      v.setInt16(44 + (off + i) * 2, Math.round((0.6 * tri + 0.4 * sn) * env * 0.5 * 32767), true);
+    }
+    off += L;
+  }
+  return b;
+}
+window.playSound = function (n, ri) {
+  try {
+    var bytes = wavBytes(n, ri);
+    if (!el) el = new Audio();
+    if (url) { try { URL.revokeObjectURL(url); } catch (e) {} }
+    url = URL.createObjectURL(new Blob([bytes], {type: "audio/wav"}));
+    el.onerror = function () {
+      try {
+        var u = new Uint8Array(bytes), s = "", i;
+        for (i = 0; i < u.length; i += 8192) s += String.fromCharCode.apply(null, u.subarray(i, i + 8192));
+        el.onerror = function () { show("Error: no es pot reproduir l’àudio"); };
+        el.src = "data:audio/wav;base64," + btoa(s);
+        var p2 = el.play(); if (p2 && p2.catch) p2.catch(function () {});
+      } catch (e) { show("Error de so: " + e); }
+    };
+    el.src = url;
+    var p = el.play();
+    if (p && p.then) p.then(function () { show("So: reproduint"); }).catch(function (e) { show("Error de so: " + e); });
+  } catch (e) { show("Error de so: " + e); }
+};
+})();
+</script>
+</body>
+</html>
