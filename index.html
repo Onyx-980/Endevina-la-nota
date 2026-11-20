@@ -18,13 +18,13 @@ h1{font-size:1.5rem;margin:0 0 4px;text-align:center}
 .card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:16px;margin-bottom:14px}
 h2{font-size:1rem;margin:0 0 10px}
 .row{display:flex;flex-wrap:wrap;gap:8px}
-button{font:inherit;cursor:pointer;border-radius:12px;border:2px solid var(--bd);background:var(--card);color:var(--tx);padding:10px 14px}
+button{font:inherit;cursor:pointer;border-radius:12px;border:2px solid var(--bd);background:var(--card);color:var(--tx);padding:10px 14px;-webkit-tap-highlight-color:transparent}
 .opt.sel{border-color:var(--ac);background:var(--ac2);font-weight:600}
 .opt.good{border-color:var(--ok);background:var(--ok);color:#fff}
 .opt.bad{border-color:var(--ko);background:var(--ko);color:#fff}
 .main{background:var(--ac);border-color:var(--ac);color:#fff;font-weight:600}
 .main:disabled,.opt:disabled{opacity:.45;cursor:default}
-.top{display:flex;gap:8px;margin-bottom:14px}
+.top{display:flex;gap:8px;margin-bottom:10px}
 .top button{flex:1}
 #stage{text-align:center;min-height:210px}
 #face{width:170px;height:170px;display:none;margin:0 auto}
@@ -49,7 +49,11 @@ button{font:inherit;cursor:pointer;border-radius:12px;border:2px solid var(--bd)
 <button class="main" id="newBtn">▶ Nota nova</button>
 <button id="repBtn" disabled>🔁 Repeteix</button>
 </div>
-<p class="score" id="dbg" style="margin:-6px 0 10px"></p>
+<div class="top">
+<button id="laBtn" style="border-color:var(--ac);color:var(--ac);font-weight:600">🎵 La 442 Hz</button>
+<button id="metBtn" style="border-color:var(--ok);background:var(--ac2);font-weight:600">⏱️ Metrònom: SÍ</button>
+</div>
+<p class="score" id="dbg" style="margin:-2px 0 10px"></p>
 
 <div class="card">
 <h2>Quina nota és?</h2>
@@ -97,8 +101,8 @@ const RHY = [
   {n:"Blanca", d:[2]},
   {n:"Blanca amb punt", d:[3]}
 ];
-const freq = s => A4 * Math.pow(2, (s - 9) / 12); // s = semitons des del Do central
-let ctx = null, cur = null, selN = null, selR = null, done = true, ok = 0, tot = 0;
+const freq = s => A4 * Math.pow(2, (s - 9) / 12);
+let cur = null, selN = null, selR = null, done = true, ok = 0, tot = 0, metOn = true;
 const $ = id => document.getElementById(id);
 
 function mk(box, arr, kind) {
@@ -118,7 +122,7 @@ mk($("notes"), NOTES, "n"); mk($("rhy"), RHY, "r");
 
 function play() {
   if (!cur) return;
-  if (typeof window.playSound === "function") window.playSound(cur.n, cur.r);
+  if (typeof window.playSound === "function") window.playSound(cur.n, cur.r, metOn);
   else $("dbg").textContent = "Error: falta el mòdul de so";
 }
 
@@ -135,6 +139,17 @@ $("newBtn").onclick = () => {
   reset(); play();
 };
 $("repBtn").onclick = play;
+
+$("laBtn").onclick = () => {
+  if (typeof window.playLa === "function") window.playLa();
+};
+
+$("metBtn").onclick = () => {
+  metOn = !metOn;
+  $("metBtn").textContent = metOn ? "⏱️ Metrònom: SÍ" : "⏱️ Metrònom: NO";
+  $("metBtn").style.borderColor = metOn ? "var(--ok)" : "var(--bd)";
+  $("metBtn").style.background = metOn ? "var(--ac2)" : "var(--card)";
+};
 
 $("chk").onclick = () => {
   if (done) return;
@@ -163,8 +178,8 @@ $("chk").onclick = () => {
 (function () {
 var ST = [0, 2, 4, 5, 7, 9, 11, 12], DUR = [[1], [0.5, 0.5], [2], [3]], el = null, url = null;
 function show(m) { var d = document.getElementById("dbg"); if (d) d.textContent = m; }
-function wavBytes(n, ri) {
-  var SR = 22050, f = 442 * Math.pow(2, (ST[n] - 9) / 12), segs = DUR[ri], total = 0, k, j, i, off = 0;
+function wavBytes(f, segs, withMet) {
+  var SR = 22050, total = 0, k, j, i, off = 0;
   for (k = 0; k < segs.length; k++) total += segs[k];
   var len = Math.floor(SR * total), b = new ArrayBuffer(44 + len * 2), v = new DataView(b);
   function w(o, t) { for (var q = 0; q < t.length; q++) v.setUint8(o + q, t.charCodeAt(q)); }
@@ -176,15 +191,25 @@ function wavBytes(n, ri) {
     for (i = 0; i < L; i++) {
       var t = i / SR, ph = (t * f) % 1, tri = 4 * Math.abs(ph - 0.5) - 1, sn = Math.sin(2 * Math.PI * f * t);
       var env = Math.min(1, t / 0.03) * Math.min(1, (d - t) / 0.06);
-      v.setInt16(44 + (off + i) * 2, Math.round((0.6 * tri + 0.4 * sn) * env * 0.5 * 32767), true);
+      var sig = (0.6 * tri + 0.4 * sn) * env * 0.45;
+      if (withMet) {
+        var gTime = (off + i) / SR;
+        var beatPos = gTime % 1.0;
+        if (beatPos < 0.03) {
+          var clickEnv = 1 - (beatPos / 0.03);
+          var clickTone = Math.sin(2 * Math.PI * 1000 * beatPos) * clickEnv * 0.35;
+          sig += clickTone;
+        }
+      }
+      if (sig > 1) sig = 1; if (sig < -1) sig = -1;
+      v.setInt16(44 + (off + i) * 2, Math.round(sig * 32767), true);
     }
     off += L;
   }
   return b;
 }
-window.playSound = function (n, ri) {
+function playWav(bytes, label) {
   try {
-    var bytes = wavBytes(n, ri);
     if (!el) el = new Audio();
     if (url) { try { URL.revokeObjectURL(url); } catch (e) {} }
     url = URL.createObjectURL(new Blob([bytes], {type: "audio/wav"}));
@@ -199,8 +224,15 @@ window.playSound = function (n, ri) {
     };
     el.src = url;
     var p = el.play();
-    if (p && p.then) p.then(function () { show("So: reproduint"); }).catch(function (e) { show("Error de so: " + e); });
+    if (p && p.then) p.then(function () { show(label); }).catch(function (e) { show("Error de so: " + e); });
   } catch (e) { show("Error de so: " + e); }
+}
+window.playSound = function (n, ri, withMet) {
+  var f = 442 * Math.pow(2, (ST[n] - 9) / 12);
+  playWav(wavBytes(f, DUR[ri], withMet), "So: reproduint");
+};
+window.playLa = function () {
+  playWav(wavBytes(442, [1.2], false), "So: La 442 Hz de referència");
 };
 })();
 </script>
