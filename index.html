@@ -3,86 +3,99 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Endevina la nota</title>
+<title>Entrenament Musical</title>
 <style>
-:root{--bg:#fdf8ee;--card:#fff;--tx:#2a2438;--mut:#6b6580;--ac:#7c4dff;--ac2:#efe9ff;--ok:#2e9d5b;--ko:#d94a4a;--bd:#ddd5ee;
-box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#17141f;--card:#221e2e;--tx:#f0ecfa;--mut:#a39cba;--ac:#a98bff;--ac2:#352c52;--ok:#5fd18d;--ko:#ff7b7b;--bd:#3a3452}}
-:root[data-theme="dark"]{--bg:#17141f;--card:#221e2e;--tx:#f0ecfa;--mut:#a39cba;--ac:#a98bff;--ac2:#352c52;--ok:#5fd18d;--ko:#ff7b7b;--bd:#3a3452}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
+:root{--bg:#fdf8ee;--card:#fff;--tx:#2a2438;--mut:#6b6580;--ac:#7c4dff;--ac2:#efe9ff;--ok:#2e9d5b;--ko:#d94a4a;--bd:#ddd5ee}
+@media (prefers-color-scheme:dark){:root{--bg:#17141f;--card:#221e2e;--tx:#f0ecfa;--mut:#a39cba;--ac:#a98bff;--ac2:#352c52;--ok:#5fd18d;--ko:#ff7b7b;--bd:#3a3452}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--tx);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;display:flex;justify-content:center}
-main{width:100%;max-width:560px;padding:20px 16px 40px}
-h1{font-size:1.5rem;margin:0 0 4px;text-align:center}
-.sub{color:var(--mut);text-align:center;margin:0 0 16px;font-size:.9rem}
-.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:16px;margin-bottom:14px}
-h2{font-size:1rem;margin:0 0 10px}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:system-ui,-apple-system,sans-serif;display:flex;justify-content:center}
+main{width:100%;max-width:560px;padding:18px 14px 40px}
+h1{font-size:1.45rem;margin:0 0 4px;text-align:center}
+.sub{color:var(--mut);text-align:center;margin:0 0 12px;font-size:.9rem}
+.credit{text-align:center;font-weight:700;color:var(--ac);margin:14px 0 0}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:14px;margin-bottom:12px}
+h2{font-size:.98rem;margin:0 0 10px}
 .row{display:flex;flex-wrap:wrap;gap:8px}
-button{font:inherit;cursor:pointer;border-radius:12px;border:2px solid var(--bd);background:var(--card);color:var(--tx);padding:10px 14px;-webkit-tap-highlight-color:transparent}
+button{font:inherit;cursor:pointer;border-radius:12px;border:2px solid var(--bd);background:var(--card);color:var(--tx);padding:9px 12px}
+.tabs,.top,.mini{display:flex;gap:8px;margin-bottom:10px}
+.tabs button,.top button,.mini button{flex:1}
+.tabs button{padding:9px 6px;font-size:.88rem;font-weight:600}
+.tabs button.act,.main{background:var(--ac);border-color:var(--ac);color:#fff;font-weight:600}
 .opt.sel{border-color:var(--ac);background:var(--ac2);font-weight:600}
-.opt.good{border-color:var(--ok);background:var(--ok);color:#fff}
-.opt.bad{border-color:var(--ko);background:var(--ko);color:#fff}
-.main{background:var(--ac);border-color:var(--ac);color:#fff;font-weight:600}
-.main:disabled,.opt:disabled{opacity:.45;cursor:default}
-.top{display:flex;gap:8px;margin-bottom:10px}
-.top button{flex:1}
-#stage{text-align:center;min-height:210px}
-#face{width:170px;height:170px;display:none;margin:0 auto}
+.opt.good,.slot.good{border-color:var(--ok);background:var(--ok);color:#fff}
+.opt.bad,.slot.bad{border-color:var(--ko);background:var(--ko);color:#fff}
+button:disabled{opacity:.45;cursor:default}
+.dict-box{display:flex;gap:6px;margin-bottom:10px;min-height:42px}
+.slot{flex:1;border:2px dashed var(--bd);border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:700;padding:6px;font-size:.92rem}
+.slot.fill{border-style:solid;border-color:var(--ac);background:var(--ac2)}
+#stage{text-align:center;min-height:190px}
+#face{width:150px;height:150px;display:none;margin:0 auto}
 #face.show{display:block}
 #face.yes{animation:nod .9s ease-in-out 2}
 #face.no{animation:shake .7s ease-in-out 2}
-@keyframes nod{0%,100%{transform:translateY(0) rotate(0)}25%{transform:translateY(14px) rotate(3deg)}50%{transform:translateY(0)}75%{transform:translateY(14px) rotate(-3deg)}}
+@keyframes nod{0%,100%{transform:translateY(0)}50%{transform:translateY(14px)}}
 @keyframes shake{0%,100%{transform:rotate(0)}25%{transform:rotate(-14deg)}75%{transform:rotate(14deg)}}
-#msg{font-size:1.1rem;font-weight:700;margin-top:6px}
-#hint{color:var(--mut);padding-top:70px}
+#msg{font-size:1.05rem;font-weight:700;margin-top:6px}
+#hint{color:var(--mut);padding-top:60px}
 .score{text-align:center;color:var(--mut);font-size:.9rem}
-.credit{text-align:center;font-weight:700;color:var(--ac);margin:18px 0 0;font-size:1rem}
+.hide{display:none}
 </style>
 </head>
 <body>
 <main>
-<h1>🎵 Endevina la nota</h1>
+<h1>🎵 Entrenament Musical</h1>
 <p class="sub">La = 442 Hz · negra = 60</p>
-<p class="credit" style="margin:-8px 0 16px">@LorenMoya</p>
-
+<p class="credit" style="margin:-6px 0 14px">@LorenMoya</p>
+<div class="tabs">
+<button class="act" id="t0">🎵 Nota i ritme</button>
+<button id="t1">📏 Intervals</button>
+<button id="t2">🎼 Dictat</button>
+</div>
 <div class="top">
-<button class="main" id="newBtn">▶ Nota nova</button>
+<button class="main" id="newBtn">▶ Nou exercici</button>
 <button id="repBtn" disabled>🔁 Repeteix</button>
 </div>
 <div class="top">
 <button id="laBtn" style="border-color:var(--ac);color:var(--ac);font-weight:600">🎵 La 442 Hz</button>
 <button id="metBtn" style="border-color:var(--ok);background:var(--ac2);font-weight:600">⏱️ Metrònom: SÍ</button>
 </div>
-<p class="score" id="dbg" style="margin:-2px 0 10px"></p>
-
-<div class="card">
-<h2>Quina nota és?</h2>
-<div class="row" id="notes"></div>
+<div id="p0">
+<div class="card"><h2>Quina nota és?</h2><div class="row" id="notes"></div></div>
+<div class="card"><h2>Quin ritme?</h2><div class="row" id="rhy"></div></div>
 </div>
+<div id="p1" class="hide">
 <div class="card">
-<h2>Quin ritme?</h2>
-<div class="row" id="rhy"></div>
+<h2>Tipus d'interval</h2>
+<div class="mini"><button class="opt sel" id="im0">Melòdic (seguit)</button><button class="opt" id="im1">Harmònic (alhora)</button></div>
+<h2>Quin interval sents?</h2>
+<div class="row" id="ints"></div>
 </div>
-
+</div>
+<div id="p2" class="hide">
+<div class="card">
+<h2>Longitud del dictat (comença per Do)</h2>
+<div class="mini"><button class="opt sel" id="dl3">3 notes</button><button class="opt" id="dl4">4 notes</button><button class="opt" id="dl5">5 notes</button></div>
+<div class="dict-box" id="dSlots"></div>
+<div class="row" id="dNotes"></div>
+<button id="dDel" style="width:100%;margin-top:8px" disabled>⌫ Esborra l'última</button>
+</div>
+</div>
 <button class="main" id="chk" style="width:100%" disabled>Comprova</button>
-
-<div class="card" id="stage" style="margin-top:14px">
-<div id="hint">Prem «Nota nova» per començar</div>
-<svg id="face" viewBox="0 0 200 200" aria-label="Cara">
+<div class="card" id="stage" style="margin-top:12px">
+<div id="hint">Prem «Nou exercici» per començar</div>
+<svg id="face" viewBox="0 0 200 200">
 <path d="M100 12C52 12 34 56 36 104C37 132 42 148 54 152C65 154 69 140 69 126L131 126C131 140 135 154 146 152C158 148 163 132 164 104C166 56 148 12 100 12Z" fill="#e8cf7e"/>
 <path d="M50 200C56 174 80 166 100 166C120 166 144 174 150 200Z" fill="#9b7bff"/>
 <rect x="89" y="146" width="22" height="24" rx="9" fill="#f3cfb2"/>
 <path d="M54 96C54 66 74 50 100 50C126 50 146 66 146 96C146 128 126 152 100 152C74 152 54 128 54 96Z" fill="#fbdcc2"/>
 <path d="M50 100C44 54 76 28 104 30C134 32 154 58 150 100C146 82 138 68 124 62C112 74 84 78 64 86C57 90 52 94 50 100Z" fill="#e8cf7e"/>
 <g stroke="#fff2bf" stroke-width="5" fill="none" stroke-linecap="round" opacity=".9"><path d="M82 38C72 48 66 62 60 78"/><path d="M104 34C100 46 96 56 88 66"/><path d="M128 40C136 50 140 62 142 76"/><path d="M44 100C43 120 46 138 50 146"/><path d="M156 100C157 120 154 138 150 146"/></g>
-<path d="M70 84Q80 78 92 83M108 83Q120 78 130 84" stroke="#c4a54f" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-<g id="eyes"><ellipse cx="80" cy="102" rx="5" ry="6.5" fill="#2a2438"/><ellipse cx="120" cy="102" rx="5" ry="6.5" fill="#2a2438"/><circle cx="82" cy="99.5" r="1.8" fill="#fff"/><circle cx="122" cy="99.5" r="1.8" fill="#fff"/></g>
+<g id="eyes"><ellipse cx="80" cy="102" rx="5" ry="6.5" fill="#2a2438"/><ellipse cx="120" cy="102" rx="5" ry="6.5" fill="#2a2438"/></g>
 <g id="happyEyes" style="display:none"><path d="M72 106Q80 95 88 106M112 106Q120 95 128 106" stroke="#2a2438" stroke-width="4" fill="none" stroke-linecap="round"/></g>
 <g fill="rgba(255,255,255,.12)" stroke="#151515" stroke-width="5"><rect x="62" y="88" width="36" height="28" rx="12"/><rect x="102" y="88" width="36" height="28" rx="12"/></g>
-<path d="M98 99Q100 96 102 99M62 98L55 96M138 98L145 96" stroke="#151515" stroke-width="4" fill="none" stroke-linecap="round"/>
-<path d="M99 114Q100 118 104 117" stroke="#e2b08f" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+<path d="M98 99Q100 96 102 99M62 98L55 96M138 98L145 96" stroke="#151515" stroke-width="4" fill="none"/>
 <circle cx="70" cy="126" r="8" fill="#f7a6a6" opacity=".45"/><circle cx="130" cy="126" r="8" fill="#f7a6a6" opacity=".45"/>
-<g id="mouthYes" style="display:none"><path d="M86 129Q100 150 114 129Z" fill="#b8344f"/><path d="M92 138Q100 144 108 138Q100 135 92 138Z" fill="#f08a9b"/></g>
+<g id="mouthYes" style="display:none"><path d="M86 129Q100 150 114 129Z" fill="#b8344f"/></g>
 <path id="mouthNo" d="M89 139Q100 131 111 139" stroke="#b8344f" stroke-width="4" fill="none" stroke-linecap="round" style="display:none"/>
 </svg>
 <div id="msg"></div>
@@ -90,60 +103,118 @@ button{font:inherit;cursor:pointer;border-radius:12px;border:2px solid var(--bd)
 <p class="score" id="score">Encerts: 0 / 0</p>
 <p class="credit">@LorenMoya</p>
 </main>
-
 <script>
-window.onerror = function (m) { var d = document.getElementById("dbg"); if (d) d.textContent = "Error: " + m; };
 const A4 = 442;
-const NOTES = [["Do",0],["Re",2],["Mi",4],["Fa",5],["Sol",7],["La",9],["Si",11],["Do agut",12]];
-const RHY = [
-  {n:"Negra", d:[1]},
-  {n:"Dues corxeres", d:[0.5,0.5]},
-  {n:"Blanca", d:[2]},
-  {n:"Blanca amb punt", d:[3]}
-];
-const freq = s => A4 * Math.pow(2, (s - 9) / 12);
-let cur = null, selN = null, selR = null, done = true, ok = 0, tot = 0, metOn = true;
-const $ = id => document.getElementById(id);
+const NOTES = Array.of("Do","Re","Mi","Fa","Sol","La","Si","Do agut");
+const SEMI = Array.of(0,2,4,5,7,9,11,12);
+const RHY = Array.of("Negra","Dues corxeres","Blanca","Blanca amb punt");
+const DUR = Array.of(Array.of(1),Array.of(0.5,0.5),Array.of(2),Array.of(3));
+const INTS = Array.of("2a","3a","4a","5a","6a","7a","8a");
 
-function mk(box, arr, kind) {
-  arr.forEach((x, i) => {
+let mode = 0, metOn = true, harm = false, dLen = 3;
+let cur = null, selN = null, selR = null, selI = null, selD = Array.of(), done = true, ok = 0, tot = 0;
+let el = null, url = null;
+const $ = id => document.getElementById(id);
+const freq = s => A4 * Math.pow(2, (s - 9) / 12);
+
+function renderWav(events, totalDur, withMet) {
+  const SR = 22050, len = Math.floor(SR * totalDur), b = new ArrayBuffer(44 + len * 2), v = new DataView(b);
+  const w = (o, t) => { for (let q = 0; q < t.length; q++) v.setUint8(o + q, t.charCodeAt(q)); };
+  w(0,"RIFF"); v.setUint32(4,36+len*2,true); w(8,"WAVEfmt "); v.setUint32(16,16,true);
+  v.setUint16(20,1,true); v.setUint16(22,1,true); v.setUint32(24,SR,true); v.setUint32(28,SR*2,true);
+  v.setUint16(32,2,true); v.setUint16(34,16,true); w(36,"data"); v.setUint32(40,len*2,true);
+  for (let i = 0; i < len; i++) {
+    const t = i / SR; let sig = 0;
+    events.forEach(ev => {
+      if (t >= ev.s && t < ev.s + ev.d) {
+        const lt = t - ev.s, ph = (lt * ev.f) % 1;
+        const tri = 4 * Math.abs(ph - 0.5) - 1, sn = Math.sin(2 * Math.PI * ev.f * lt);
+        const env = Math.min(1, lt / 0.03) * Math.min(1, (ev.d - lt) / 0.06);
+        sig += (0.6 * tri + 0.4 * sn) * env * 0.38;
+      }
+    });
+    if (withMet) {
+      const bp = t % 1.0;
+      if (bp < 0.03) sig += Math.sin(2 * Math.PI * 1000 * bp) * (1 - bp / 0.03) * 0.35;
+    }
+    if (sig > 1) sig = 1; if (sig < -1) sig = -1;
+    v.setInt16(44 + i * 2, Math.round(sig * 32767), true);
+  }
+  return b;
+}
+
+function playBytes(bytes) {
+  if (!el) el = new Audio();
+  if (url) { try { URL.revokeObjectURL(url); } catch (e) {} }
+  url = URL.createObjectURL(new Blob([bytes], {type:"audio/wav"}));
+  el.src = url;
+  const p = el.play(); if (p && p.catch) p.catch(() => {});
+}
+
+function playCur() {
+  if (!cur) return;
+  const evs = Array.of(); let totD = 1;
+  if (mode === 0) {
+    let t = 0;
+    DUR.at(cur.r).forEach(d => { evs.push({f: freq(SEMI.at(cur.n)), s: t, d: d}); t += d; });
+    totD = t;
+  } else if (mode === 1) {
+    const f1 = freq(SEMI.at(cur.n1)), f2 = freq(SEMI.at(cur.n2));
+    if (harm) { evs.push({f: f1, s: 0, d: 2}); evs.push({f: f2, s: 0, d: 2}); }
+    else { evs.push({f: f1, s: 0, d: 1}); evs.push({f: f2, s: 1, d: 1}); }
+    totD = 2;
+  } else {
+    cur.seq.forEach((n, idx) => evs.push({f: freq(SEMI.at(n)), s: idx, d: 1}));
+    totD = cur.seq.length;
+  }
+  playBytes(renderWav(evs, totD, metOn));
+}
+
+function mkBtns(box, arr, fn) {
+  arr.forEach((txt, i) => {
     const b = document.createElement("button");
-    b.className = "opt"; b.textContent = kind === "n" ? x[0] : x.n; b.disabled = true;
-    b.onclick = () => {
-      if (done) return;
-      if (kind === "n") selN = i; else selR = i;
-      [...box.children].forEach((c, j) => c.classList.toggle("sel", j === (kind === "n" ? selN : selR)));
-      $("chk").disabled = selN === null || selR === null;
-    };
+    b.className = "opt"; b.textContent = txt; b.disabled = true;
+    b.onclick = () => fn(i);
     box.appendChild(b);
   });
 }
-mk($("notes"), NOTES, "n"); mk($("rhy"), RHY, "r");
 
-function play() {
-  if (!cur) return;
-  if (typeof window.playSound === "function") window.playSound(cur.n, cur.r, metOn);
-  else $("dbg").textContent = "Error: falta el mòdul de so";
+mkBtns($("notes"), NOTES, i => { if (!done) { selN = i; Array.from($("notes").children).forEach((c, j) => c.classList.toggle("sel", j === i)); $("chk").disabled = selN === null || selR === null; } });
+mkBtns($("rhy"), RHY, i => { if (!done) { selR = i; Array.from($("rhy").children).forEach((c, j) => c.classList.toggle("sel", j === i)); $("chk").disabled = selN === null || selR === null; } });
+mkBtns($("ints"), INTS, i => { if (!done) { selI = i; Array.from($("ints").children).forEach((c, j) => c.classList.toggle("sel", j === i)); $("chk").disabled = selI === null; } });
+mkBtns($("dNotes"), NOTES, i => { if (!done && selD.length < dLen) { selD.push(i); updateSlots(); } });
+
+function updateSlots() {
+  const box = $("dSlots"); box.innerHTML = "";
+  for (let i = 0; i < dLen; i++) {
+    const s = document.createElement("div");
+    s.className = "slot" + (i < selD.length ? " fill" : "");
+    s.textContent = i < selD.length ? NOTES.at(selD.at(i)) : (i + 1);
+    box.appendChild(s);
+  }
+  $("dDel").disabled = done || selD.length <= 1;
+  $("chk").disabled = done || selD.length < dLen;
 }
 
-function reset() {
-  selN = selR = null; done = false;
-  $("face").setAttribute("class", ""); $("msg").textContent = "";
-  document.querySelectorAll(".opt").forEach(b => { b.className = "opt"; b.disabled = false; });
-  $("chk").disabled = true; $("repBtn").disabled = false;
+function setMode(m) {
+  mode = m; cur = null; done = true;
+  Array.of(0,1,2).forEach(k => { $("t" + k).classList.toggle("act", k === m); $("p" + k).classList.toggle("hide", k !== m); });
+  $("repBtn").disabled = true; $("chk").disabled = true;
+  $("face").setAttribute("class", ""); $("msg").textContent = ""; $("hint").style.display = "block";
+  document.querySelectorAll(".opt").forEach(b => { if (!b.closest(".mini")) { b.className = "opt"; b.disabled = true; } });
+  if (m === 2) { selD = Array.of(); updateSlots(); }
 }
 
-$("newBtn").onclick = () => {
-  cur = {n: Math.floor(Math.random() * NOTES.length), r: Math.floor(Math.random() * RHY.length)};
-  $("hint").style.display = "none"; $("face").classList.remove("show");
-  reset(); play();
-};
-$("repBtn").onclick = play;
-
-$("laBtn").onclick = () => {
-  if (typeof window.playLa === "function") window.playLa();
-};
-
+$("t0").onclick = () => setMode(0);
+$("t1").onclick = () => setMode(1);
+$("t2").onclick = () => setMode(2);
+$("im0").onclick = () => { harm = false; $("im0").classList.add("sel"); $("im1").classList.remove("sel"); if (cur && !done) playCur(); };
+$("im1").onclick = () => { harm = true; $("im1").classList.add("sel"); $("im0").classList.remove("sel"); if (cur && !done) playCur(); };
+$("dl3").onclick = () => { dLen = 3; $("dl3").classList.add("sel"); $("dl4").classList.remove("sel"); $("dl5").classList.remove("sel"); setMode(2); };
+$("dl4").onclick = () => { dLen = 4; $("dl4").classList.add("sel"); $("dl3").classList.remove("sel"); $("dl5").classList.remove("sel"); setMode(2); };
+$("dl5").onclick = () => { dLen = 5; $("dl5").classList.add("sel"); $("dl3").classList.remove("sel"); $("dl4").classList.remove("sel"); setMode(2); };
+$("dDel").onclick = () => { if (!done && selD.length > 1) { selD.pop(); updateSlots(); } };
+$("laBtn").onclick = () => playBytes(renderWav(Array.of({f: A4, s: 0, d: 1.2}), 1.2, false));
 $("metBtn").onclick = () => {
   metOn = !metOn;
   $("metBtn").textContent = metOn ? "⏱️ Metrònom: SÍ" : "⏱️ Metrònom: NO";
@@ -151,90 +222,59 @@ $("metBtn").onclick = () => {
   $("metBtn").style.background = metOn ? "var(--ac2)" : "var(--card)";
 };
 
+$("newBtn").onclick = () => {
+  done = false; selN = selR = selI = null;
+  $("hint").style.display = "none"; $("face").setAttribute("class", ""); $("msg").textContent = "";
+  $("chk").disabled = true; $("repBtn").disabled = false;
+  document.querySelectorAll("#p" + mode + " .opt").forEach(b => { b.className = "opt"; b.disabled = false; });
+  if (mode === 0) cur = {n: Math.floor(Math.random() * 8), r: Math.floor(Math.random() * 4)};
+  else if (mode === 1) {
+    const gap = 1 + Math.floor(Math.random() * 7), n1 = Math.floor(Math.random() * (8 - gap));
+    cur = {n1: n1, n2: n1 + gap, gap: gap - 1};
+  } else {
+    const seq = Array.of(0);
+    for (let i = 1; i < dLen; i++) seq.push(Math.floor(Math.random() * 8));
+    cur = {seq: seq}; selD = Array.of(0); updateSlots();
+  }
+  playCur();
+};
+$("repBtn").onclick = playCur;
+
 $("chk").onclick = () => {
-  if (done) return;
-  done = true; tot++;
-  const good = selN === cur.n && selR === cur.r;
+  if (done) return; done = true; tot++;
+  let good = false, ans = "";
+  if (mode === 0) {
+    good = selN === cur.n && selR === cur.r;
+    const nb = $("notes").children, rb = $("rhy").children;
+    Array.from(nb).concat(Array.from(rb)).forEach(b => b.disabled = true);
+    nb.item(cur.n).classList.add("good"); rb.item(cur.r).classList.add("good");
+    if (selN !== cur.n) nb.item(selN).classList.add("bad");
+    if (selR !== cur.r) rb.item(selR).classList.add("bad");
+    ans = NOTES.at(cur.n) + ", " + RHY.at(cur.r).toLowerCase();
+  } else if (mode === 1) {
+    good = selI === cur.gap;
+    const ib = $("ints").children; Array.from(ib).forEach(b => b.disabled = true);
+    ib.item(cur.gap).classList.add("good");
+    if (!good) ib.item(selI).classList.add("bad");
+    ans = "una " + INTS.at(cur.gap) + " (" + NOTES.at(cur.n1) + " - " + NOTES.at(cur.n2) + ")";
+  } else {
+    Array.from($("dNotes").children).forEach(b => b.disabled = true); $("dDel").disabled = true;
+    good = selD.every((v, idx) => v === cur.seq.at(idx));
+    Array.from($("dSlots").children).forEach((s, idx) => s.classList.add(selD.at(idx) === cur.seq.at(idx) ? "good" : "bad"));
+    ans = cur.seq.map(i => NOTES.at(i)).join(" - ");
+  }
   if (good) ok++;
-  const nb = $("notes").children, rb = $("rhy").children;
-  [...nb, ...rb].forEach(b => b.disabled = true);
-  nb[cur.n].classList.add("good"); rb[cur.r].classList.add("good");
-  if (selN !== cur.n) nb[selN].classList.add("bad");
-  if (selR !== cur.r) rb[selR].classList.add("bad");
-  const f = $("face");
-  f.setAttribute("class", "show"); void f.offsetWidth;
+  const f = $("face"); f.setAttribute("class", "show"); void f.offsetWidth;
   f.classList.add(good ? "yes" : "no");
   $("happyEyes").style.display = good ? "block" : "none";
   $("eyes").style.display = good ? "none" : "block";
   $("mouthYes").style.display = good ? "block" : "none";
   $("mouthNo").style.display = good ? "none" : "block";
   $("msg").style.color = good ? "var(--ok)" : "var(--ko)";
-  $("msg").textContent = good ? "Sí! Molt bé!" : "No… era " + NOTES[cur.n][0] + ", " + RHY[cur.r].n.toLowerCase();
+  $("msg").textContent = good ? "Sí! Molt bé!" : "No… era " + ans;
   $("score").textContent = "Encerts: " + ok + " / " + tot;
   $("chk").disabled = true;
 };
-</script>
-<script>
-(function () {
-var ST = [0, 2, 4, 5, 7, 9, 11, 12], DUR = [[1], [0.5, 0.5], [2], [3]], el = null, url = null;
-function show(m) { var d = document.getElementById("dbg"); if (d) d.textContent = m; }
-function wavBytes(f, segs, withMet) {
-  var SR = 22050, total = 0, k, j, i, off = 0;
-  for (k = 0; k < segs.length; k++) total += segs[k];
-  var len = Math.floor(SR * total), b = new ArrayBuffer(44 + len * 2), v = new DataView(b);
-  function w(o, t) { for (var q = 0; q < t.length; q++) v.setUint8(o + q, t.charCodeAt(q)); }
-  w(0, "RIFF"); v.setUint32(4, 36 + len * 2, true); w(8, "WAVEfmt "); v.setUint32(16, 16, true);
-  v.setUint16(20, 1, true); v.setUint16(22, 1, true); v.setUint32(24, SR, true); v.setUint32(28, SR * 2, true);
-  v.setUint16(32, 2, true); v.setUint16(34, 16, true); w(36, "data"); v.setUint32(40, len * 2, true);
-  for (j = 0; j < segs.length; j++) {
-    var d = segs[j], L = Math.floor(SR * d);
-    for (i = 0; i < L; i++) {
-      var t = i / SR, ph = (t * f) % 1, tri = 4 * Math.abs(ph - 0.5) - 1, sn = Math.sin(2 * Math.PI * f * t);
-      var env = Math.min(1, t / 0.03) * Math.min(1, (d - t) / 0.06);
-      var sig = (0.6 * tri + 0.4 * sn) * env * 0.45;
-      if (withMet) {
-        var gTime = (off + i) / SR;
-        var beatPos = gTime % 1.0;
-        if (beatPos < 0.03) {
-          var clickEnv = 1 - (beatPos / 0.03);
-          var clickTone = Math.sin(2 * Math.PI * 1000 * beatPos) * clickEnv * 0.35;
-          sig += clickTone;
-        }
-      }
-      if (sig > 1) sig = 1; if (sig < -1) sig = -1;
-      v.setInt16(44 + (off + i) * 2, Math.round(sig * 32767), true);
-    }
-    off += L;
-  }
-  return b;
-}
-function playWav(bytes, label) {
-  try {
-    if (!el) el = new Audio();
-    if (url) { try { URL.revokeObjectURL(url); } catch (e) {} }
-    url = URL.createObjectURL(new Blob([bytes], {type: "audio/wav"}));
-    el.onerror = function () {
-      try {
-        var u = new Uint8Array(bytes), s = "", i;
-        for (i = 0; i < u.length; i += 8192) s += String.fromCharCode.apply(null, u.subarray(i, i + 8192));
-        el.onerror = function () { show("Error: no es pot reproduir l’àudio"); };
-        el.src = "data:audio/wav;base64," + btoa(s);
-        var p2 = el.play(); if (p2 && p2.catch) p2.catch(function () {});
-      } catch (e) { show("Error de so: " + e); }
-    };
-    el.src = url;
-    var p = el.play();
-    if (p && p.then) p.then(function () { show(label); }).catch(function (e) { show("Error de so: " + e); });
-  } catch (e) { show("Error de so: " + e); }
-}
-window.playSound = function (n, ri, withMet) {
-  var f = 442 * Math.pow(2, (ST[n] - 9) / 12);
-  playWav(wavBytes(f, DUR[ri], withMet), "So: reproduint");
-};
-window.playLa = function () {
-  playWav(wavBytes(442, [1.2], false), "So: La 442 Hz de referència");
-};
-})();
 </script>
 </body>
 </html>
