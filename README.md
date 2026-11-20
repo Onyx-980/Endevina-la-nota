@@ -3,7 +3,7 @@
 Petit programa interactiu pensat per a **estudiants de música de nivell elemental** per practicar l'entrenament auditiu, reconeixent tant l'altura de les notes com els patrons rítmics bàsics.
 
 ## 🔗 Prova l'aplicació
-* **[Obrir el joc al navegador o mòbil](https://endevina-la-nota.netlify.app)**
+* **[Obrir el joc al navegador o mòbil](https://endevina-la-nota9.netlify.app)**
 
 ## 🎼 Característiques musicals
 * **Registre:** Notes naturals de **Do 3 a Do 4** (`Do, Re, Mi, Fa, Sol, La, Si, Do agut`).
