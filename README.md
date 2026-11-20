@@ -1,35 +1,32 @@
-# 🎵 Endevina la nota
+# 🎵 Entrenament Musical · Endevina la nota
 
-Petit programa interactiu pensat per a **estudiants de música de nivell elemental** per practicar l'entrenament auditiu, reconeixent tant l'altura de les notes com els patrons rítmics bàsics.
+Aplicació web interactiva creada per a **estudiants de música** per practicar l'entrenament auditiu, el reconeixement d'intervals, la lectura rítmica i els dictats melòdics curts des de qualsevol dispositiu.
 
-## 🔗 Prova l'aplicació
-* **[Obrir el joc al navegador o mòbil](https://endevina-la-nota9.netlify.app)**
+## 🔗 Prova l'aplicació en línia
+* **[Obrir l'aplicació al mòbil, tauleta o ordinador](https://netlify.app)**
 
-## 🎼 Característiques musicals
-* **Registre:** Notes naturals de **Do 3 a Do 4** (`Do, Re, Mi, Fa, Sol, La, Si, Do agut`).
-* **Afinació:** `La = 442 Hz` (amb botó de referència sonora inclòs).
-* **Pulsació:** `Negra = 60 BPM` (amb metrònom integrat activable).
-* **Ritmes inclosos:**
-  * Negra
-  * Dues corxeres
-  * Blanca
-  * Blanca amb punt
+## 🎼 Modes d'entrenament inclosos
+1. **🎵 Nota i ritme (nivell elemental):**
+   * Reconeixement de les notes naturals de **Do 3 a Do 4** (`Do, Re, Mi, Fa, Sol, La, Si, Do agut`).
+   * Identificació de patrons rítmics bàsics: **negra, dues corxeres, blanca i blanca amb punt**.
+2. **📏 Intervals:**
+   * Pràctica d'intervals des de la **2a fins a la 8a**.
+   * Selector per triar entre intervals **melòdics** (notes seguides) o **harmònics** (notes alhora).
+3. **🎼 Dictat melòdic:**
+   * Dictats curts de **3, 4 o 5 notes** (començant sempre pel **Do** com a nota de referència tonal).
+   * Botó per esborrar l'última nota introduïda abans de validar la resposta.
 
-## 🎮 Com funciona
-1. **Agafa l'afinació (opcional):** Prem el botó **🎵 La 442 Hz** per escoltar la nota de referència.
-2. **Escolta el repte:** Prem **▶ Nota nova**; el programa reprodueix aleatòriament una nota i un ritme (per exemple, un *Do blanca*). Pots activar o desactivar el **⏱️ Metrònom** per sentir el clic de la pulsació mentre sona la nota.
-3. **Respon:** Selecciona quina nota i quina figura rítmica has sentit i prem **Comprova**.
-4. **Feedback visual animat:**
-   * ✅ **Si ho encerta:** Apareix un avatar personalitzat content dient que **sí** amb el cap.
-   * ❌ **Si falla:** L'avatar diu que **no** amb el cap i mostra quina era la resposta correcta.
+## 🛠️ Eines musicals i característiques tècniques
+* **Afinació de referència:** `La = 442 Hz` amb botó dedicat per escoltar la nota de referència en qualsevol moment.
+* **Pulsació i metrònom:** `Negra = 60 BPM` amb metrònom activable o desactivable (`SÍ / NO`) sincronitzat amb cada exercici.
+* **Feedback visual animat:** Avatar personalitzat que celebra els encerts i anima en cas d'error, juntament amb un comptador de puntuació en temps real.
+* **Tecnologia:** Desenvolupada en un únic fitxer autònom (**HTML5, CSS3 i JavaScript**) amb síntesi d'àudio WAV en temps real sense dependències externes.
 
-## 📋 Historial de versions
-* **Versió 2 (actual):** Afegeix el botó de referència **🎵 La 442 Hz** i el **⏱️ Metrònom** sincronitzat a `negra = 60`.
-* **Versió 1:** Versió inicial del joc d'entrenament auditiu de notes i ritmes.
-
-## 🛠️ Tecnologies utilitzades
-* **HTML5, CSS3 i JavaScript** en un únic fitxer autònom (`index.html`), compatible amb ordinadors, tauletes i telèfons mòbils sense necessitat d'instal·lar res.
-* **Síntesi d'àudio WAV en temps real** a freqüència exacta (`La = 442 Hz`).
+## 📈 Historial de versions
+* **Versió 3 (actual):** Incorporació del selector de 3 modes (*Nota i ritme*, *Intervals* melòdics/harmònics i *Dictats* de 3 a 5 notes).
+* **Versió 2:** Afegit el botó de referència `La 442 Hz` i el metrònom activable a `negra = 60`.
+* **Versió 1:** Llançament inicial amb reconeixement de notes (Do 3 – Do 4) i 4 figures rítmiques.
 
 ---
-Creat per **[@LorenMoya](https://github.com)**
+Creat per **@LorenMoya**
+
